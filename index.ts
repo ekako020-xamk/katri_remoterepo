@@ -73,16 +73,16 @@ app.post("/upload", async (req : express.Request, res : express.Response ) => {
 
 });
 
-app.get("/upload", async (req : express.Request, res : express.Response ) => {
+app.get("/", async (req : express.Request, res : express.Response ) => {
 
-    res.render("upload", {virhe : "", teksti : ""});
+    res.render("index", {virhe : "", teksti : ""});
 
 });
 
 
-app.get("/", async (req : express.Request, res : express.Response ) => {
+app.get("/upload", async (req : express.Request, res : express.Response ) => {
 
-    res.render("index", {suoritukset : await prisma.suoritus.findMany()});
+    res.render("upload", {suoritukset : await prisma.suoritus.findMany()});
 
 });
 

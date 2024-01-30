@@ -10,16 +10,20 @@
 
     <form method="POST" action="/upload" enctype="multipart/form-data">
 
-    
+        <% if (suoritukset.length > 0) {%>
 
-        <div class="mdl-textfield">
-            <input class="mdl-textfield__input" type="file" name="tiedosto" id="tiedosto">
-            <label class="mdl-textfield__label" for="tiedosto">Tiedosto</label>            
-        </div>
+            <% suoritukset.forEach((kuva) => { %>
 
-        <button type="submit" class="mdl-button mdl-button--raised mdl-button--colored">Lisää kuva</button>
+                <h4><%= suoritukset %></h4>
+
+                
+
+            <%});%>
+
+
+
+
         <a href="/" class="mdl-button mdl-button--raised">Peruuta</a>
-
     </form>
 
 <%- include("includes/footer") %>

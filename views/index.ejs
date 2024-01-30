@@ -1,24 +1,26 @@
 <%- include("includes/header") %>
 
-        <h2>Suoritukset</h2>
+    <h2>Lisää uusi tiedosto</h2>
 
-        <a href="/upload" class="mdl-button mdl-button--raised mdl-button--colored">Lisää uusi tiedosto</a>
+    <% if (Boolean(virhe)) { %>
 
-        <% if (suoritukset.length > 0) {%>
+        <div class="virhe"><%=virhe%></div>
 
-            <% suoritukset.forEach((suoritus) => { %>
-        
-            
-        
-                <p>Tiedosto: <%= suoritus %></p>
-        
-           
-            <% }); %>
-        
-        <% } else { %>
-        
-            Ei tietoja.
-        
-        <% } %>
+    <% } %>
+
+    <form method="POST" action="/upload" enctype="multipart/form-data">
+
+    
+
+        <div class="mdl-textfield">
+            <input class="mdl-textfield__input" type="file" name="tiedosto" id="tiedosto">
+            <label class="mdl-textfield__label" for="tiedosto">Tiedosto</label>            
+        </div>
+        <br>
+
+        <button type="submit" class="mdl-button mdl-button--raised mdl-button--colored">Lisää suoritukset</button>
+      
+
+    </form>
 
 <%- include("includes/footer") %>
