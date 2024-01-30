@@ -1,0 +1,24 @@
+<%- include("includes/header") %>
+
+        <h2>Suoritukset</h2>
+
+        <a href="/upload" class="mdl-button mdl-button--raised mdl-button--colored">Lisää uusi tiedosto</a>
+
+        <% if (suoritukset.length > 0) {%>
+
+            <% suoritukset.forEach((suoritus) => { %>
+        
+            
+        
+                <p>Tiedosto: <%= suoritus %></p>
+        
+           
+            <% }); %>
+        
+        <% } else { %>
+        
+            Ei tietoja.
+        
+        <% } %>
+
+<%- include("includes/footer") %>
