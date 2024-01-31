@@ -59,8 +59,8 @@ app.post("/upload", async (req: express.Request, res: express.Response) => {
 
 app.get("/upload", async (req: express.Request, res: express.Response) => {
     try {
-        const kuvat = await prisma.suoritus.findMany();
-        res.render("upload", { virhe: "", teksti: "", kuvat: kuvat, jsonData: {} });
+        const suoritukset = await prisma.suoritus.findMany();
+        res.render("upload", { virhe: "", teksti: "", suoritukset: suoritukset, jsonData: {} });
     } catch (error) {
         // Handle error appropriately
         console.error(error);

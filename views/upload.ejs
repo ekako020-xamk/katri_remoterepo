@@ -6,8 +6,25 @@
 
 <form method="POST" action="/upload" enctype="multipart/form-data">
     <% if (jsonData) { %>
-        <h4>JSON Data:</h4>
-        <pre><%= JSON.stringify(jsonData, null, 2) %></pre>
+        <h4><%= "Otsikko" %></h4>
+        <div class="mdl-table-container">
+            <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
+                <thead>
+                    <tr>
+                        <% Object.keys(jsonData).forEach((key) => { %>
+                            <th class="mdl-data-table__cell--non-numeric"><%= key %></th>
+                        <% }); %>
+                    </tr>
+                </thead>
+                <tbody>
+                    <tr>
+                        <% Object.values(jsonData).forEach((value) => { %>
+                            <td class="mdl-data-table__cell--non-numeric"><%= value %></td>
+                        <% }); %>
+                    </tr>
+                </tbody>
+            </table>
+        </div>
     <% } else { %>
         <div class="virhe">Tiedosto puuttuu.</div>
     <% } %>
