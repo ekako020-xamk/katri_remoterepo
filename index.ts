@@ -13,18 +13,15 @@ const uploadKasittelija : express.RequestHandler = multer({
     //limits : {
       //  fileSize : (1024 * 500)
     //},
-    fileFilter : (req, file, callback) => {
-
-        if (["application/json"].includes(file.mimetype.split("/")[1])) {
-
+    fileFilter: (req, file, callback) => {
+        const allowedExtensions = ["json"];
+        const fileExtension = path.extname(file.originalname).toLowerCase().substring(1); // Get the file extension
+    
+        if (allowedExtensions.includes(fileExtension)) {
             callback(null, true);
-
         } else {
-
             callback(new Error());
-
-        }        
-
+        }
     }
 }).single("tiedosto");
 
