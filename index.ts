@@ -15,7 +15,7 @@ const uploadKasittelija : express.RequestHandler = multer({
     //},
     fileFilter : (req, file, callback) => {
 
-        if (["json"].includes(file.mimetype.split("/")[1])) {
+        if (["application/json"].includes(file.mimetype.split("/")[1])) {
 
             callback(null, true);
 
@@ -35,55 +35,45 @@ app.set("view engine", "ejs");
 
 app.use(express.static(path.resolve(__dirname, "public"))); // public-kansio, jonka alla css-muotoilua
 
-app.post("/upload", async (req : express.Request, res : express.Response ) => {
-
-    uploadKasittelija(req, res, async (err : any) => {
-
+app.post("/upload", async (req: express.Request, res: express.Response) => {
+    uploadKasittelija(req, res, async (err: any) => {
         if (err instanceof multer.MulterError) {
-            res.render("upload", { "virhe" : "Tiedosto on tiedostokooltaan liian suuri (> 500kt).", "teksti" : req.body.pp });
+            res.render("upload", { virhe: "Tiedosto on tiedostokooltaan liian suuri (> 500kt).", teksti: req.body.pp, jsonData: {} });
         } else if (err) {
-            res.render("upload", { "virhe" : "Väärä tiedostomuoto. Käytä ainoastaan jpg-kuvia.", "teksti" : req.body.pp });        
+            res.render("upload", { virhe: "Väärä tiedostomuoto. Käytä ainoastaan JSON-tiedostoja.", teksti: req.body.pp, jsonData: {} });
         } else {
-
             if (req.file) {
+                try {
+                    const filePath = path.resolve(__dirname, "tmp", String(req.file.filename));
+                    const jsonData = await fs.readFile(filePath, "utf-8");
 
-                let Pvm : string = `${req.body.pp}`; 
-        
-                await fs.copyFile(path.resolve(__dirname, "tmp", String(req.file.filename)), path.resolve(__dirname, "public", "tiedostot"))
-        
-                await prisma.suoritus.create({
-                    data : {
-                        id : req.body.id,
-                        askeleet : req.body.askeleet,
-                        pp : req.body.pp,
-                        kk : req.body.kk,
-                        vvvv : req.body.vvvv,
-                    }
-                });
-        
+                    res.render("upload", { virhe: "", teksti: "", jsonData: JSON.parse(jsonData) });
+                } catch (error) {
+                    console.error(error);
+                    res.render("upload", { virhe: "Virhe tiedoston lukemisessa.", teksti: req.body.pp, jsonData: {} });
+                    return;
+                }
+            } else {
+                res.render("upload", { virhe: "Tiedosto puuttuu.", teksti: req.body.pp, jsonData: {} });
             }
-        
-            res.redirect("/");
-
         }
-
     });
-
-
-
 });
 
-app.get("/", async (req : express.Request, res : express.Response ) => {
-
-    res.render("index", {virhe : "", teksti : ""});
-
+app.get("/upload", async (req: express.Request, res: express.Response) => {
+    try {
+        const kuvat = await prisma.suoritus.findMany();
+        res.render("upload", { virhe: "", teksti: "", kuvat: kuvat, jsonData: {} });
+    } catch (error) {
+        // Handle error appropriately
+        console.error(error);
+        res.render("upload", { virhe: "Internal Server Error", teksti: "", kuvat: [], jsonData: {} });
+    }
 });
 
 
-app.get("/upload", async (req : express.Request, res : express.Response ) => {
-
-    res.render("upload", {suoritukset : await prisma.suoritus.findMany()});
-
+app.get("/", (req, res) => {
+    res.render("index"); // Adjust the view name as per your application structure
 });
 
 app.listen(portti, () => {

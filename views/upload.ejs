@@ -1,29 +1,18 @@
 <%- include("includes/header") %>
 
-    <h2>Lisää uusi tiedosto</h2>
+<% if (Boolean(virhe)) { %>
+    <div class="virhe"><%=virhe%></div>
+<% } %>
 
-    <% if (Boolean(virhe)) { %>
-
-        <div class="virhe"><%=virhe%></div>
-
+<form method="POST" action="/upload" enctype="multipart/form-data">
+    <% if (jsonData) { %>
+        <h4>JSON Data:</h4>
+        <pre><%= JSON.stringify(jsonData, null, 2) %></pre>
+    <% } else { %>
+        <div class="virhe">Tiedosto puuttuu.</div>
     <% } %>
 
-    <form method="POST" action="/upload" enctype="multipart/form-data">
-
-        <% if (suoritukset.length > 0) {%>
-
-            <% suoritukset.forEach((kuva) => { %>
-
-                <h4><%= suoritukset %></h4>
-
-                
-
-            <%});%>
-
-
-
-
-        <a href="/" class="mdl-button mdl-button--raised">Peruuta</a>
-    </form>
+    <a href="/" class="mdl-button mdl-button--raised">Peruuta</a>
+</form>
 
 <%- include("includes/footer") %>
