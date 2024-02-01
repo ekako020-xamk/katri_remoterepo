@@ -1,35 +1,51 @@
 <%- include("includes/header") %>
 
 <% if (Boolean(virhe)) { %>
-    <div class="virhe"><%=virhe%></div>
+    <div class="virhe"><%= virhe %></div>
 <% } %>
+
+<% let totalAskeleet = 0; %>
+<% let paivat = 0; %>
 
 <form method="POST" action="/upload" enctype="multipart/form-data">
     <% if (jsonData) { %>
-        <h4><%= "Otsikko" %></h4>
+        <h4><%= "Otsikko puuttuu" %></h4>
+
+        <% jsonData.forEach((suoritus) => { %>
+            <% totalAskeleet += suoritus.askeleet; %>
+
+        
+            <% paivat += 1; %>
+        <% }); %>
+
+        
+        <div class="total-askeleet" >Askeleita yhteensä: <%= totalAskeleet %> askelta. Keskimäärin <%= Math.round(totalAskeleet/paivat) %> päivässä.</div>
+        <br>
         <div class="mdl-table-container">
             <table class="mdl-data-table mdl-js-data-table mdl-shadow--2dp">
                 <thead>
                     <tr>
-                        <% Object.keys(jsonData).forEach((key) => { %>
-                            <th class="mdl-data-table__cell--non-numeric"><%= key %></th>
-                        <% }); %>
+                        <th class="mdl-data-table__cell--non-numeric" style="color:black;">Pvm</th>
+                        <th class="mdl-data-table__cell--non-numeric" style="color:black;">Askeleet</th>
                     </tr>
                 </thead>
                 <tbody>
-                    <tr>
-                        <% Object.values(jsonData).forEach((value) => { %>
-                            <td class="mdl-data-table__cell--non-numeric"><%= value %></td>
-                        <% }); %>
-                    </tr>
+                    <% jsonData.forEach((suoritus) => { %>
+                        <tr>
+                            <td class="mdl-data-table__cell--non-numeric"><%= suoritus.pp + "." + suoritus.kk + "." + suoritus.vvvv %></td>
+                            <td class="mdl-data-table__cell--non-numeric"><%= suoritus.askeleet %></td>
+                        </tr>
+                    <% }); %>
                 </tbody>
             </table>
         </div>
+
     <% } else { %>
         <div class="virhe">Tiedosto puuttuu.</div>
     <% } %>
 
-    <a href="/" class="mdl-button mdl-button--raised">Peruuta</a>
+    <br>
+    <a href="/" class="mdl-button mdl-button--raised">Palaa alkuun</a>
 </form>
 
 <%- include("includes/footer") %>
