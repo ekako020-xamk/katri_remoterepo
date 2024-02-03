@@ -1,11 +1,26 @@
 <%- include("includes/header") %>
 
+
+
 <% if (Boolean(virhe)) { %>
     <div class="virhe"><%= virhe %></div>
 <% } %>
 
 <% let totalAskeleet = 0; %>
 <% let paivat = 0; %>
+
+
+<style>
+    .mdl-table-container {
+        margin-bottom: 20px;
+    }
+    .mdl-data-table {
+        width: 100%; 
+    }
+    .mdl-data-table th, .mdl-data-table td {
+        text-align: left; 
+    }
+</style>
 
 <form method="POST" action="/upload" enctype="multipart/form-data">
     <% if (jsonData) { %>
