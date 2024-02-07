@@ -2,10 +2,6 @@
 
 
 
-<% if (Boolean(virhe)) { %>
-    <div class="virhe"><%= virhe %></div>
-<% } %>
-
 <% let totalAskeleet = 0; %>
 <% let paivat = 0; %>
 
@@ -20,11 +16,15 @@
     .mdl-data-table th, .mdl-data-table td {
         text-align: left; 
     }
-</style>
+</style>  
+
+<% if (Boolean(virhe)) { %>
+    <div class="virhe"><%= virhe %></div>
+    <% } else {%>
 
 <form method="POST" action="/upload" enctype="multipart/form-data">
     <% if (jsonData) { %>
-        <h4><%= "Otsikko puuttuu" %></h4>
+        <h4><%= "Otsikko puuttuu" %></h4> // datan sisällä numero vastaa kuukautta
 
         <% jsonData.forEach((suoritus) => { %>
             <% totalAskeleet += suoritus.askeleet; %>
@@ -60,7 +60,11 @@
     <% } %>
 
     <br>
-    <a href="/" class="mdl-button mdl-button--raised">Palaa alkuun</a>
+    
 </form>
+
+<% } %>
+
+<a href="/" class="mdl-button mdl-button--raised" style="width: 25%;">Palaa alkuun</a>
 
 <%- include("includes/footer") %>

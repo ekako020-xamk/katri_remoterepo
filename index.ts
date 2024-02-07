@@ -37,12 +37,13 @@ app.post("/upload", async (req: express.Request, res: express.Response) => {
     let tiedostonimi: string = req.file?.originalname || "";
 
     uploadKasittelija(req, res, async (err: any) => {
-        if (err instanceof multer.MulterError) {
-          
-            res.render("upload", { "virhe" : "Väärä tiedostomuoto. Käytä ainoastaan json- tai csv-tiedostoja"  });      
+        if (err) { //instanceof multer.MulterError
+            console.log("virhe");
+
+            res.render("upload", { "virhe" : "Väärä tiedostomuoto. Käytä ainoastaan json- tai csv-tiedostoja",jsonData:[]});      
        
         } else {
-
+            console.log("ok");
             if (req.file) {
             
                     const jsonData = req.file.buffer.toString("utf-8");
@@ -72,3 +73,6 @@ app.listen(portti, () => {
     console.log(`Palvelin käynnistyi osoitteeseen : http://localhost:${portti}`);
 
 });
+
+
+// csv, jossa erotin merkki usein puolipiste. Javascriptin perusominaisuuksista löytää split (stringeistä array). Toinen vaihtoehto csv-json mpm apupaketti
