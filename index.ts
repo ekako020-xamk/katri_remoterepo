@@ -9,10 +9,7 @@ const prisma : PrismaClient = new PrismaClient();
 
 
 const uploadKasittelija : express.RequestHandler = multer({ 
-    storage: multer.memoryStorage(), // Use memory storage instead of saving to disk
-    //limits : {
-      //  fileSize : (1024 * 500)
-    //},
+    storage: multer.memoryStorage(), 
     fileFilter : (req, file, callback) => {
 
         if (["json", "csv"].includes(file.mimetype.split("/")[1])) {
@@ -42,7 +39,7 @@ app.post("/upload", async (req: express.Request, res: express.Response) => {
     uploadKasittelija(req, res, async (err: any) => {
         if (err instanceof multer.MulterError) {
           
-            res.render("upload", { "virhe" : "Väärä tiedostomuoto. Käytä ainoastaan json-muotoisia tiedostoja.", "teksti" : req.body.teksti });        
+            res.render("upload", { "virhe" : "Väärä tiedostomuoto. Käytä ainoastaan json- tai csv-tiedostoja"  });      
        
         } else {
 
@@ -61,13 +58,13 @@ app.post("/upload", async (req: express.Request, res: express.Response) => {
 app.get("/upload", async (req: express.Request, res: express.Response) => {
    
          
-    res.render("upload", {suoritukset : await prisma.suoritus.findMany()});
+    res.render("upload",  {suoritukset : await prisma.suoritus.findMany()});
  
 });
 
 
 app.get("/", (req, res) => {
-    res.render("index"); // Adjust the view name as per your application structure
+    res.render("index"); 
 });
 
 app.listen(portti, () => {
