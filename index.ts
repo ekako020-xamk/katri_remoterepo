@@ -7,7 +7,6 @@ import fs from "fs/promises"; // i-system, promises-versio jotta päästään as
 const app : express.Application = express();
 const prisma : PrismaClient = new PrismaClient();
 
-
 const uploadKasittelija : express.RequestHandler = multer({ 
     storage: multer.memoryStorage(), 
     fileFilter : (req, file, callback) => {
@@ -19,9 +18,7 @@ const uploadKasittelija : express.RequestHandler = multer({
         } else {
 
             callback(new Error());
-
         }        
-
     }
 }).single("tiedosto");
 
@@ -62,7 +59,6 @@ app.get("/upload", async (req: express.Request, res: express.Response) => {
     res.render("upload",  {suoritukset : await prisma.suoritus.findMany()});
  
 });
-
 
 app.get("/", (req, res) => {
     res.render("index"); 

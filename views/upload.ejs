@@ -1,7 +1,5 @@
 <%- include("includes/header") %>
 
-
-
 <% let totalAskeleet = 0; %>
 <% let paivat = 0; %>
 
@@ -9,7 +7,6 @@
     "Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
     "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"
 ]; %>
-
 
 <style>
     .mdl-table-container {
@@ -34,12 +31,9 @@
         <h4><%=kuukausiTeksti +" "+ ekaRivi.vvvv %></h4> <%// otsikko: datan sisällä numero vastaa kuukautta%>
 
         <% jsonData.forEach((suoritus) => { %>
-            <% totalAskeleet += suoritus.askeleet; %>
-
-        
+            <% totalAskeleet += suoritus.askeleet; %>        
             <% paivat += 1; %>
         <% }); %>
-
         
         <div class="total-askeleet" >Askeleita yhteensä: <%= totalAskeleet %> askelta. Keskimäärin <%= Math.round(totalAskeleet/paivat) %> päivässä.</div>
         <br>
