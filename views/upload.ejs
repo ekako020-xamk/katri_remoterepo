@@ -5,6 +5,11 @@
 <% let totalAskeleet = 0; %>
 <% let paivat = 0; %>
 
+<% const kuukaudetTeksti = [
+    "Tammikuu", "Helmikuu", "Maaliskuu", "Huhtikuu", "Toukokuu", "Kesäkuu",
+    "Heinäkuu", "Elokuu", "Syyskuu", "Lokakuu", "Marraskuu", "Joulukuu"
+]; %>
+
 
 <style>
     .mdl-table-container {
@@ -24,7 +29,9 @@
 
 <form method="POST" action="/upload" enctype="multipart/form-data">
     <% if (jsonData) { %>
-        <h4><%= "Otsikko puuttuu" %></h4> // datan sisällä numero vastaa kuukautta
+        <% const ekaRivi = jsonData[0]; %>
+        <% const kuukausiTeksti = kuukaudetTeksti[ekaRivi.kk - 1]; %>
+        <h4><%=kuukausiTeksti +" "+ ekaRivi.vvvv %></h4> <%// otsikko: datan sisällä numero vastaa kuukautta%>
 
         <% jsonData.forEach((suoritus) => { %>
             <% totalAskeleet += suoritus.askeleet; %>
