@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="http://fonts.googleapis.com/css?family=Roboto:300,400,500,700" type="text/css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons">
+    <link rel="stylesheet" href="https://code.getmdl.io/1.3.0/material.indigo-pink.min.css">
+    <link rel="stylesheet" href="https://fonts.googleapis.com/icon?family=Material+Icons|Material+Icons+Outlined">
+    <style>
+            h1 {
+            font-size: 20pt;
+            margin: 0;
+        }
+        h2 {
+            font-size: 16pt;
+            margin: 0;
+        }
+        .mdl-list__item {
+            height: 30px;
+        }
+        .mdl-textfield {
+            width: 100%;
+        }
+        .mdl-layout {
+            margin-top: 15px;
+            margin-left: auto;
+            margin-right: auto;
+            width: 90%;
+            max-width: 960px;
+        }
+        .mdl-textfield {
+            width: 100%;
+        }
+        .mdl-textfield__input {
+            width: 92%;
+            border-radius: 5px;
+            padding: 15px;
+            border: solid 1px lightgrey;
+        }
+        .mdl-button {
+            border-radius: 5px;
+            height: 40px;
+        }
+        .material-icons {
+            color: gray;
+        }
+
+        .mdl-title2 {
+            text-align: left;
+        }
+
+        .mdl-title {
+            text-align: right;
+        } 
+
+        .arrow-icon {
+            vertical-align: middle;
+            display: inline-block;
+            margin-left: 5px;
+        }
+
+        .arrow-icon-up::before {
+            content: "arrow_drop_up";
+        }
+
+        .arrow-icon-down::before {
+            content: "arrow_drop_down";
+        }
+
+    </style>
+
+    <title>Tehtävä 1</title>
+
+    </head>
+    <body>
+
+    <div class="mdl-layout">
+
+    <h1>Kuntien asukastilasto</h1>
+
+    <h2>Kunnat</h2>    
+    
+    <form action="/" method="GET">
+        <input class="mdl-textfield__input" id="myInput" name="filter" placeholder="Hae kuntia nimellä.." value="<%= filter || '' %>">
+        <br>
+        <button type="submit" class="mdl-button mdl-js-button mdl-button--raised mdl-js-ripple-effect">
+            Hae
+        </button>
+    </form> 
+    <br>
+
+    <table id="myTable" class="mdl-data-table mdl-js-data-table mdl-data-table--selectable mdl-shadow--2dp">
+        <tbody>
+    
+            <tr>
+                <th style="text-align: left;">
+                    <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="?sortBy=kunta&sortOrder=<%= sortBy === 'kunta' && sortOrder === 'asc' ? 'desc' : 'asc' %>&filter=<%= filter %>">
+                        Kunta
+                        <i class="material-icons arrow-icon<%= sortBy === 'kunta' && sortOrder === 'asc' ? '-up' : (sortBy === 'kunta' && sortOrder === 'desc' ? '-down' : '') %>"></i>
+                    </a>
+                </th>
+                <th class="mdl-title">
+                    <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="?sortBy=asukkaatYhteensa&sortOrder=<%= sortBy === 'asukkaatYhteensa' && sortOrder === 'asc' ? 'desc' : 'asc' %>&filter=<%= filter %>">
+                        Asukkaat Yhteensa
+                        <i class="material-icons arrow-icon<%= sortBy === 'asukkaatYhteensa' && sortOrder === 'asc' ? '-up' : (sortBy === 'asukkaatYhteensa' && sortOrder === 'desc' ? '-down' : '') %>"></i>
+                    </a>
+                 
+                </th>
+                <th class="mdl-title">
+                    <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="?sortBy=asukkaatMiehet&sortOrder=<%= sortBy === 'asukkaatMiehet' && sortOrder === 'asc' ? 'desc' : 'asc' %>&filter=<%= filter %>">
+                        Asukkaat miehet
+                        <i class="material-icons arrow-icon<%= sortBy === 'asukkaatMiehet' && sortOrder === 'asc' ? '-up' : (sortBy === 'asukkaatMiehet' && sortOrder === 'desc' ? '-down' : '') %>"></i>
+                    </a> 
+                </th>
+                <th class="mdl-title">
+                    <a class="mdl-button mdl-js-button mdl-js-ripple-effect" href="?sortBy=asukkaatNaiset&sortOrder=<%= sortBy === 'asukkaatNaiset' && sortOrder === 'asc' ? 'desc' : 'asc' %>&filter=<%= filter %>">
+                        Asukkaat naiset
+                        <i class="material-icons arrow-icon<%= sortBy === 'asukkaatNaiset' && sortOrder === 'asc' ? '-up' : (sortBy === 'asukkaatNaiset' && sortOrder === 'desc' ? '-down' : '') %>"></i>
+                    </a>
+                </th> 
+            </tr>
+
+            <% kunnat.forEach((kunta) => { %>       
+                <tr>
+                    <td class="mdl-data-table__cell--non-numeric"><%= kunta.kunta %></td>
+                    <td><%= kunta.asukkaatYhteensa.toLocaleString() %></td>
+                    <td><%= kunta.asukkaatMiehet.toLocaleString() %></td>
+                    <td><%= kunta.asukkaatNaiset.toLocaleString() %></td>            
+                </tr>           
+                
+            <% }) %>                                  
+
+        </tbody>
+        
+    </table>
+
+    
+    <h1 class="mdl-list__item">Kuntien asukasluvun keskiarvo: <%= AsukkaatYhteensaKeskiarvo2 %></h1>    
+    <h1 class="mdl-list__item">Kuntien määrä: <%= kuntienMaara%></h1>
+    <h1 class="mdl-list__item">Naisten prosentuaalinen osuus: <%= AsukkaatNaisetProsentti + " %"  %></h1>
+
+
+    </div>
+</body>
+</html>
