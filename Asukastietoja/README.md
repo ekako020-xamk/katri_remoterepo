@@ -1,3 +1,5 @@
+HUOM! Lisää Node Modules: npm install typescript
+
 # Sovellusohjelmointi 3 oppimistehtävät -startteri
 
 Tämä on repository Sovellusohjelmointi 3 -opintojakson oppimistehtävien palautukseen. Kaikki palautukset oppimistehtäviin tulee sijoittaa sitä vastaavaan GitHub-repositoryyn. Jokaiselle oppimistehtävälle luodaan uusi repository tehtävänannon yhteydessä olevasta linkistä.
