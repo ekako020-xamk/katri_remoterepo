@@ -1,0 +1,26 @@
+
+h2, p, table {
+  margin-left: 15px;
+}
+
+
+input[type=text]{
+  width: 200px;
+  padding: 10px;
+  
+}
+
+li {
+  border: solid 1px;
+  list-style-type: none;
+  padding: 5px;
+  display:grid;
+  margin: 1px;
+}
+
+.button1 {
+  padding: 10px;
+  font-weight:bold;
+  width: 200px;
+}
+
